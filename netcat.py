@@ -42,11 +42,11 @@ class NetCat:
                     response+=data.decode()
                     if recv_len<4096:
                         break
-                    if response:
-                        print(response)
-                        buffer=input('> ')
-                        buffer+='\n'
-                        self.socket.send(buffer.encode())
+                if response:
+                    print(response)
+                    buffer=input('> ')
+                    buffer+='\n'
+                    self.socket.send(buffer.encode())
         except KeyboardInterrupt:
             print('User terminated')
             self.socket.close()
@@ -54,6 +54,7 @@ class NetCat:
 
 
     def listen(self):
+        print('listening')
         self.socket.bind((self.args.target, self.args.port))
         self.socket.listen(5)
         while True:
@@ -72,6 +73,7 @@ class NetCat:
                 data=client_socket.recv(4096)
                 if data:
                     file_buffer+=data
+                    print(len(file_buffer))
                 else:
                     break
             
